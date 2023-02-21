@@ -1,19 +1,24 @@
 import settings
 import openai
 import subprocess
+from sys import platform
+
+script_shell = 'powershell'
+if platform != "win32":
+    script_shell = 'bash'
+
 
 openai.api_key = settings.OPEN_AI_API_KEY
 openai.organization = settings.OPEN_AI_ORGANIZATION
 
 
 user_prompt = input('Enter your prompt: ')
-
-gpt_prompt = 'can you create create a powershell script that will run the following command?\n' \
+gpt_prompt = f'can you create create a {script_shell} script that will run the following command?\n' \
     f'{user_prompt}\n' \
     'please answer in yes or no.'
 
-script_prompt = 'write the following command as a powershell script:' \
-    '5+10\n'
+script_prompt = f'write the following command as a {script_shell} script:' \
+    f'{user_prompt}\n'
 
 
 def main():
@@ -43,10 +48,11 @@ def main():
         with open('test.ps1', 'w') as f:
             f.write(response.choices[0].text)
 
-        result = subprocess.run(['powershell.exe', '-ExecutionPolicy',
-                                 'Unrestricted', '-File', 'test.ps1'])
+        subprocess.run(['powershell.exe', '-ExecutionPolicy',
+                        'Unrestricted', '-File', 'test.ps1'])
 
-        print(result.stdout)
+    else:
+        print('Sorry, I cannot help you with that.')
 
 
 if __name__ == "__main__":

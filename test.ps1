@@ -1,4 +1,3 @@
 
-$a = 5
-$b = 10
-$a + $b
+$key = New-Object System.Security.Cryptography.RSACryptoServiceProvider(2048)
+$key.ToXmlString($false) | Out-File key.pem
