@@ -1,3 +1,2 @@
 
-$key = New-Object System.Security.Cryptography.RSACryptoServiceProvider(2048)
-$key.ToXmlString($false) | Out-File key.pem
+Start-Process "chrome.exe" "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
